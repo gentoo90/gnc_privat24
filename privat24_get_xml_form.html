@@ -1,0 +1,38 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Get Privat24 Statements</title>
+</head>
+<body>
+<form method="POST" action="https://client-bank.privatbank.ua/p24/c2bstatements">
+	<input type="hidden" name="PUREXML" value="TRUE" />
+	<table>
+	<tbody>
+		<tr>
+			<td><label for="UserName">User Name</label></td>
+			<td><input name="UserName" /></td>
+		</tr>
+		<tr>
+			<td><label for="Userass">Password</label></td>
+			<td><input type="password" name="UserPass" /></td>
+		</tr>
+		<tr>
+			<td><label for="acc">Account Number</label></td>
+			<td><input name="acc" /></td>
+		</tr>
+		<tr>
+			<td><label for="year">Year</label></td>
+			<td><input name="year" /></td>
+		</tr>
+		<tr>
+			<td><label for="month">Month</label></td>
+			<td><input name="month" /></td>
+		</tr>
+		<tr>
+			<td colspan="2"><input type="submit" /></td>
+		</tr>
+	</tbody>
+	</table>
+	</form>
+</body>
+</html>
