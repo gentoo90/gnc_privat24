@@ -25,6 +25,7 @@ import dateutil.parser
 import dateutil.rrule
 from requests import session, post  # FIXME: check version. keep-alive works only in 0.14.x and later
 from requests.auth import HTTPBasicAuth
+from time import sleep
 
 APP_NAME = 'gnc_privat24.py'
 
@@ -109,6 +110,10 @@ class GncPrivat24Session(gnucash.Session):
 				trans.RollbackEdit()
 			else:
 				trans.CommitEdit()
+
+			# sleep for 2 seconds po prevent GnuCash backup copies creation errors
+			print 'sleeping...'
+			sleep(2)
 
 		self.save()
 
