@@ -24,6 +24,7 @@ from time import strptime
 import dateutil.parser
 import dateutil.rrule
 from requests import session, post  # FIXME: check version. keep-alive works only in 0.14.x and later
+from requests.auth import HTTPBasicAuth
 
 APP_NAME = 'gnc_privat24.py'
 
@@ -129,16 +130,13 @@ if __name__ == "__main__":
 	ap.add_argument('-e', '--end', type=parse_date, default="", help='end of imported period')
 	args = ap.parse_args()
 
-	passwd = get_passwd(URL_RESTS, args.login)
-
 	# pass credentials only with the first request of session
 	data_rest = {
 		'PUREXML': 'true',
-		'UserName': args.login,
-		'UserPass': passwd,
 	}
 
 	pr24_session = session()
+	pr24_session.auth = HTTPBasicAuth(args.login, get_passwd(URL_RESTS, args.login))
 	# TODO: catch exception
 	req_rest = pr24_session.post(URL_RESTS, data_rest, verify=True)
 	req_rest.raise_for_status()
