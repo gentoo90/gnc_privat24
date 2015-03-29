@@ -83,7 +83,7 @@ class GncPrivat24Session(gnucash.Session):
 
 			for i in [r.debet, r.credit]:
 				acc = root.lookup_by_code(i.account.attrib['number'])
-				if acc.instance is None:
+				if acc is None:
 					acc = gnucash.Account(book)
 					acc.SetCommodity(ccy)
 					# TODO: Choose type based on transaction properties
@@ -165,5 +165,7 @@ if __name__ == "__main__":
 			#statements = objectify.parse('statements.xml').getroot().list
 			gnc_session.ImportPrivat24Statements(statements)
 
+	except gnucash.gnucash_core.GnuCashBackendException, e:
+		print e.message
 	finally:
 		gnc_session.end()
