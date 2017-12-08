@@ -21,6 +21,7 @@ from lxml import objectify
 import argparse
 from getpass import getpass
 from time import strptime
+from datetime import datetime
 import dateutil.parser
 import dateutil.rrule
 from requests import session, post  # FIXME: check version. keep-alive works only in 0.14.x and later
@@ -125,7 +126,10 @@ if __name__ == "__main__":
 	URL_STATEMENTS = 'https://client-bank.privatbank.ua/p24/c2bstatements'
 
 	def parse_date(datestr):
-		return dateutil.parser.parse(datestr, dayfirst=True)
+		try:
+			return dateutil.parser.parse(datestr, dayfirst=True)
+		except ValueError as e:
+			return datetime.now()
 
 	ap = argparse.ArgumentParser(description='Imports Privat24 statements into Gnucash book')
 	ap.add_argument('book', help='Gnucash book to import data to')
