@@ -80,7 +80,7 @@ class GncPrivat24Session(gnucash.Session):
 			trans.SetCurrency(ccy)
 			t = strptime(r.info.attrib['postdate'], "%Y%m%dT%H:%M:%S")
 			trans.SetDate(t.tm_mday, t.tm_mon, t.tm_year)
-			amt = gnucash.GncNumeric(float(r.amount.attrib['amt']) * 100, 100)
+			amt = gnucash.GncNumeric(int(round(float(r.amount.attrib['amt']) * 100)), 100)
 
 			for i in [r.debet, r.credit]:
 				acc = root.lookup_by_code(i.account.attrib['number'])
