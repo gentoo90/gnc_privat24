@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 #  This program is free software; you can redistribute it and/or modify
@@ -76,7 +76,7 @@ class GncPrivat24Session(gnucash.Session):
 			trans = gnucash.Transaction(book)
 			trans.BeginEdit()
 			trans.SetNum(r.info.attrib['ref'])
-			trans.SetDescription(r.purpose.text.encode('UTF-8'))
+			trans.SetDescription(r.purpose.text)
 			trans.SetCurrency(ccy)
 			t = strptime(r.info.attrib['postdate'], "%Y%m%dT%H:%M:%S")
 			trans.SetDate(t.tm_mday, t.tm_mon, t.tm_year)
@@ -90,7 +90,7 @@ class GncPrivat24Session(gnucash.Session):
 					# TODO: Choose type based on transaction properties
 					acc.SetType(gnucash.ACCT_TYPE_EXPENSE)
 					acc.SetCode(i.account.attrib['number'])
-					acc.SetName(i.account.attrib['name'].encode('UTF-8'))
+					acc.SetName(i.account.attrib['name'])
 					root.append_child(acc)
 
 				# check if transaction already exists
@@ -99,7 +99,7 @@ class GncPrivat24Session(gnucash.Session):
 				for s in acc_splits:
 					if s.GetParent().GetNum() == r.info.attrib['ref']:
 						if not tr_duplicate:
-							print "duplicate: %s" % r.purpose.text.encode('UTF-8')
+							print("duplicate: %s" % r.purpose.text)
 						tr_duplicate = True
 
 				split = gnucash.Split(book)
@@ -113,7 +113,7 @@ class GncPrivat24Session(gnucash.Session):
 				trans.CommitEdit()
 
 			# sleep for 2 seconds po prevent GnuCash backup copies creation errors
-			print 'sleeping...'
+			print('sleeping...')
 			sleep(2)
 
 		self.save()
@@ -165,15 +165,14 @@ if __name__ == "__main__":
 				'year': dt.year,
 				'month': dt.month,
 			}
-			print data_statements
-			# TODO: catch exception
+			print(data_statements)
 			req_statements = pr24_session.post(URL_STATEMENTS, data_statements, verify=True)
 			req_statements.raise_for_status()
 			statements = objectify.fromstring(req_statements.content).list
 			#statements = objectify.parse('statements.xml').getroot().list
 			gnc_session.ImportPrivat24Statements(statements)
 
-	except gnucash.gnucash_core.GnuCashBackendException, e:
-		print e.message
+	except gnucash.gnucash_core.GnuCashBackendException as e:
+		print(e.message)
 	finally:
 		gnc_session.end()
