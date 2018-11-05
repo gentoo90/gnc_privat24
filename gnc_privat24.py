@@ -147,7 +147,7 @@ if __name__ == "__main__":
 	pr24_session = session()
 	pr24_session.headers.update({
 		# should be the same as the browser you use for privat24
-		'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0'
+		'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:62.0) Gecko/20100101 Firefox/62.0'
 	})
 	pr24_session.auth = HTTPBasicAuth(args.login, get_passwd(URL_RESTS, args.login))
 	# TODO: catch exception
